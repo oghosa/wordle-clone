@@ -88,7 +88,7 @@ function update() {
             correct += 1;
             letterCount[letter] -= 1;
         }
-        }
+        
 
 
         if (correct == width){
