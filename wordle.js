@@ -67,6 +67,17 @@ function initialize() {
 
 function update() {
     let correct = 0
+    let letterCount = {}; // KENNY -> {K:1, E:2, N:3, N:4, Y:5}
+    for (i=0; i<word.length; i++){
+        if(letterCount[letter]){
+            letterCount[letter] += 1
+        }
+        else {
+            letterCount[letter] = 1
+        }                                           
+    }
+
+    //first interation - check all the correct one
     for (let c = 0; c< width; c++){
         let currtile = document.getElementById(row.toString () + "-" + c.toString());
         let letter = currtile.innerText;
@@ -75,9 +86,25 @@ function update() {
         if(word[c] == letter){
             currtile.classList.add("correct");
             correct += 1;
-        }// is letter in word?
-        else if (word.includes(letter)){
+            letterCount[letter] -= 1;
+        }
+        }
+
+
+        if (correct == width){
+            gameOver = true
+        }
+    }
+
+    //2nd interation - check which ones are present but in wrong position
+    for (let c = 0; c< width; c++){
+        let currtile = document.getElementById(row.toString () + "-" + c.toString());
+        let letter = currtile.innerText;
+
+       // is letter in word?
+        if (word.includes(letter) && letterCount[letter] > 0){
             currtile.classList.add("present")
+            letterCount[letter] -=1;
         }//no in the word
         else{
             currtile.classList.add("absent")
